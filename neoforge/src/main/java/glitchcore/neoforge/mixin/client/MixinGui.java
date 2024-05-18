@@ -9,6 +9,7 @@ import glitchcore.event.client.RenderGuiEvent;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,6 +21,9 @@ public abstract class MixinGui
 {
     @Unique
     private float partialTicks;
+
+    @Shadow
+    public int rightHeight;
 
     @Inject(method="render", at=@At(value="HEAD"))
     public void onRender(GuiGraphics guiGraphics, float partialTicks, CallbackInfo ci)
@@ -39,11 +43,12 @@ public abstract class MixinGui
         EventManager.fire(new RenderGuiEvent.Pre(RenderGuiEvent.Type.FOOD, (Gui)(Object)this, guiGraphics, this.partialTicks, guiGraphics.guiWidth(), guiGraphics.guiHeight()));
     }
 
-    @ModifyVariable(method="renderAirLevel", at=@At(value="INVOKE", target="net/minecraft/world/entity/player/Player.getMaxAirSupply()I"), ordinal = 0, require = 1)
-    private int onBeginRenderAir(int rightTop, GuiGraphics guiGraphics)
+    @Inject(method="renderAirLevel", at=@At(value="INVOKE", target="net/minecraft/world/entity/player/Player.getMaxAirSupply()I"))
+    private void onBeginRenderAir(GuiGraphics guiGraphics, CallbackInfo ci)
     {
-        var event = new RenderGuiEvent.Pre(RenderGuiEvent.Type.AIR, (Gui)(Object)this, guiGraphics, this.partialTicks, guiGraphics.guiWidth(), guiGraphics.guiHeight(), rightTop + 10);
+        int rightTop = guiGraphics.guiHeight() - this.rightHeight;
+        var event = new RenderGuiEvent.Pre(RenderGuiEvent.Type.AIR, (Gui)(Object)this, guiGraphics, this.partialTicks, guiGraphics.guiWidth(), guiGraphics.guiHeight(), rightTop);
         EventManager.fire(event);
-        return event.getRowTop() - 10;
+        this.rightHeight = guiGraphics.guiHeight() - event.getRowTop();
     }
 }
