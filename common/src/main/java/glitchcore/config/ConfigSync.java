@@ -4,6 +4,7 @@
  ******************************************************************************/
 package glitchcore.config;
 
+import glitchcore.core.GlitchCore;
 import glitchcore.network.SyncConfigPacket;
 import glitchcore.util.Environment;
 
@@ -18,8 +19,9 @@ public class ConfigSync
 
     public static void register(Config config)
     {
-        String relative = Environment.getConfigPath().relativize(config.getPath()).toString();
+        String relative = Environment.getConfigPath().relativize(config.getPath()).toString().replace('\\', '/');
         configs.put(relative, config);
+        GlitchCore.LOGGER.info("Registered synced config with path " + relative);
     }
 
     public static Stream<SyncConfigPacket> createPackets()
@@ -37,8 +39,12 @@ public class ConfigSync
 
     public static void reload(String path, String toml)
     {
-        var config = configs.get(path);
-        config.parse(toml);
-        config.load();
+        if (configs.containsKey(path))
+        {
+            var config = configs.get(path);
+            config.parse(toml);
+            config.load();
+        }
+        else throw new IllegalArgumentException("Unknown synced config " + path);
     }
 }
