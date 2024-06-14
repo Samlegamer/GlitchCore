@@ -13,8 +13,7 @@
   "client": [
     "client.MixinDebugRenderer",
     "client.MixinGui",
-    "client.MixinGuiGraphics",
-    "client.MixinModelLayers"
+    "client.MixinGuiGraphics"
   ],
   "injectors": {
     "defaultRequire": 1

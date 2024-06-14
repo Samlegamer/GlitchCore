@@ -37,7 +37,7 @@ public abstract class MixinPacketHandler
     public <T extends CustomPacket<T>> void register(ResourceLocation name, CustomPacket<T> packet)
     {
         // Store data type -> id mappings
-        var type = CustomPacketPayload.createType(name.toString());
+        var type = new CustomPacketPayload.Type<>(ResourceLocation.parse(name.toString()));
         ids.put(getPacketDataType(packet), type);
 
         // Register an event handler for NeoForge's payload event

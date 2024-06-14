@@ -5,6 +5,7 @@
 package glitchcore.event.client;
 
 import glitchcore.event.Event;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -13,18 +14,18 @@ public abstract class RenderGuiEvent extends Event
     private final Type type;
     private final Gui gui;
     private final GuiGraphics guiGraphics;
-    private final float partialTicks;
+    private final DeltaTracker deltaTracker;
     private final int screenWidth;
     private final int screenHeight;
 
     private int rowTop;
 
-    public RenderGuiEvent(Type type, Gui gui, GuiGraphics guiGraphics, float partialTicks, int screenWidth, int screenHeight, int rowTop)
+    public RenderGuiEvent(Type type, Gui gui, GuiGraphics guiGraphics, DeltaTracker deltaTracker, int screenWidth, int screenHeight, int rowTop)
     {
         this.type = type;
         this.gui = gui;
         this.guiGraphics = guiGraphics;
-        this.partialTicks = partialTicks;
+        this.deltaTracker = deltaTracker;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.rowTop = rowTop;
@@ -45,9 +46,9 @@ public abstract class RenderGuiEvent extends Event
         return this.guiGraphics;
     }
 
-    public float getPartialTicks()
+    public DeltaTracker getDeltaTracker()
     {
-        return this.partialTicks;
+        return this.deltaTracker;
     }
 
     public int getScreenWidth()
@@ -78,14 +79,14 @@ public abstract class RenderGuiEvent extends Event
 
     public static class Pre extends RenderGuiEvent
     {
-        public Pre(Type type, Gui gui, GuiGraphics guiGraphics, float partialTicks, int screenWidth, int screenHeight, int rowTop)
+        public Pre(Type type, Gui gui, GuiGraphics guiGraphics, DeltaTracker deltaTracker, int screenWidth, int screenHeight, int rowTop)
         {
-            super(type, gui, guiGraphics, partialTicks, screenWidth, screenHeight, rowTop);
+            super(type, gui, guiGraphics, deltaTracker, screenWidth, screenHeight, rowTop);
         }
 
-        public Pre(Type type, Gui gui, GuiGraphics guiGraphics, float partialTicks, int screenWidth, int screenHeight)
+        public Pre(Type type, Gui gui, GuiGraphics guiGraphics, DeltaTracker deltaTracker, int screenWidth, int screenHeight)
         {
-            this(type, gui, guiGraphics, partialTicks, screenWidth, screenHeight, -1);
+            this(type, gui, guiGraphics, deltaTracker, screenWidth, screenHeight, -1);
         }
     }
 

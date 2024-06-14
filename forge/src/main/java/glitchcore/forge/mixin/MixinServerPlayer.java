@@ -8,12 +8,11 @@ import com.mojang.authlib.GameProfile;
 import glitchcore.event.EventManager;
 import glitchcore.event.player.PlayerEvent;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.ITeleporter;
+import net.minecraft.world.level.portal.DimensionTransition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +28,7 @@ public abstract class MixinServerPlayer extends Player
     }
 
     @Inject(method="changeDimension", at=@At(value="TAIL"), remap = false)
-    public void onChangeDimension(ServerLevel level, ITeleporter teleporter, CallbackInfoReturnable<Entity> cir)
+    public void onChangeDimension(DimensionTransition p_344993_, CallbackInfoReturnable<Entity> cir)
     {
         EventManager.fire(new PlayerEvent.ChangeDimension((ServerPlayer)(Player)this));
     }

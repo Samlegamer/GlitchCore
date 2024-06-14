@@ -7,6 +7,7 @@ package glitchcore.event.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import glitchcore.event.Event;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.culling.Frustum;
 import org.joml.Matrix4f;
@@ -18,18 +19,18 @@ public class LevelRenderEvent extends Event
     private final PoseStack poseStack;
     private final Matrix4f projectionMatrix;
     private final int renderTick;
-    private final float partialTick;
+    private final DeltaTracker deltaTracker;
     private final Camera camera;
     private final Frustum frustum;
 
-    public LevelRenderEvent(Stage stage, LevelRenderer levelRenderer, PoseStack poseStack, Matrix4f projectionMatrix, int renderTick, float partialTick, Camera camera, Frustum frustum)
+    public LevelRenderEvent(Stage stage, LevelRenderer levelRenderer, PoseStack poseStack, Matrix4f projectionMatrix, int renderTick, DeltaTracker deltaTracker, Camera camera, Frustum frustum)
     {
         this.stage = stage;
         this.levelRenderer = levelRenderer;
         this.poseStack = poseStack;
         this.projectionMatrix = projectionMatrix;
         this.renderTick = renderTick;
-        this.partialTick = partialTick;
+        this.deltaTracker = deltaTracker;
         this.camera = camera;
         this.frustum = frustum;
     }
@@ -59,9 +60,9 @@ public class LevelRenderEvent extends Event
         return this.renderTick;
     }
 
-    public float getPartialTick()
+    public DeltaTracker getDeltaTracker()
     {
-        return this.partialTick;
+        return this.deltaTracker;
     }
 
     public Camera getCamera()

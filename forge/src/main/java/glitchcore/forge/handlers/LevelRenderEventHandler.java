@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import glitchcore.event.EventManager;
 import glitchcore.event.client.LevelRenderEvent;
 import glitchcore.forge.renderer.IExtendedDebugRenderer;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -31,6 +32,21 @@ public class LevelRenderEventHandler
     private static void fireStage(LevelRenderEvent.Stage stage, RenderLevelStageEvent event)
     {
         PoseStack poseStack = ((IExtendedDebugRenderer)Minecraft.getInstance().debugRenderer).getLastPoseStack();
-        EventManager.fire(new LevelRenderEvent(stage, event.getLevelRenderer(), poseStack, event.getProjectionMatrix(), event.getRenderTick(), event.getPartialTick(), event.getCamera(), event.getFrustum()));
+
+        var deltaTracker = new DeltaTracker() {
+            public float getGameTimeDeltaTicks() {
+                return event.getPartialTick();
+            }
+
+            public float getGameTimeDeltaPartialTick(boolean p_344036_) {
+                return event.getPartialTick();
+            }
+
+            public float getRealtimeDeltaTicks() {
+                return event.getPartialTick();
+            }
+        };
+
+        EventManager.fire(new LevelRenderEvent(stage, event.getLevelRenderer(), poseStack, event.getProjectionMatrix(), event.getRenderTick(), deltaTracker, event.getCamera(), event.getFrustum()));
     }
 }

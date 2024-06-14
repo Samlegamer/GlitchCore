@@ -48,7 +48,7 @@ public class GlitchCoreFabricClient implements ClientModInitializer
         });
 
         WorldRenderEvents.AFTER_TRANSLUCENT.register(context -> {
-            EventManager.fire(new LevelRenderEvent(LevelRenderEvent.Stage.AFTER_PARTICLES, context.worldRenderer(), context.matrixStack(), context.projectionMatrix(), context.worldRenderer().ticks, context.tickDelta(), context.camera(), context.frustum()));
+            EventManager.fire(new LevelRenderEvent(LevelRenderEvent.Stage.AFTER_PARTICLES, context.worldRenderer(), context.matrixStack(), context.projectionMatrix(), context.worldRenderer().ticks, context.tickCounter(), context.camera(), context.frustum()));
         });
 
         // Perform initialization for dependants

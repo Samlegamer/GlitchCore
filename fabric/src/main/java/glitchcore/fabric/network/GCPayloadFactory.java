@@ -22,7 +22,7 @@ public class GCPayloadFactory<T extends CustomPacket<T>>
 
     public GCPayloadFactory(ResourceLocation name, CustomPacket<T> packet)
     {
-        this.type = CustomPacketPayload.createType(name.toString());
+        this.type = new CustomPacketPayload.Type(ResourceLocation.parse(name.toString()));
         this.packet = packet;
         this.codec = CustomPacketPayload.codec(Impl::write, Impl::new);
 

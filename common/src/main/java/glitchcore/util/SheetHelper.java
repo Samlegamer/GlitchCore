@@ -13,14 +13,14 @@ public class SheetHelper
 {
     private static Material createSignMaterial(WoodType type)
     {
-        ResourceLocation location = new ResourceLocation(type.name());
-        return new Material(Sheets.SIGN_SHEET, new ResourceLocation(location.getNamespace(), "entity/signs/" + location.getPath()));
+        ResourceLocation location = ResourceLocation.tryParse(type.name());
+        return new Material(Sheets.SIGN_SHEET, ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "entity/signs/" + location.getPath()));
     }
 
     private static Material createHangingSignMaterial(WoodType type)
     {
-        ResourceLocation location = new ResourceLocation(type.name());
-        return new Material(Sheets.SIGN_SHEET, new ResourceLocation(location.getNamespace(), "entity/signs/hanging/" + location.getPath()));
+        ResourceLocation location = ResourceLocation.tryParse(type.name());
+        return new Material(Sheets.SIGN_SHEET, ResourceLocation.fromNamespaceAndPath(location.getNamespace(), "entity/signs/hanging/" + location.getPath()));
     }
 
     public static void addWoodType(WoodType woodType)
