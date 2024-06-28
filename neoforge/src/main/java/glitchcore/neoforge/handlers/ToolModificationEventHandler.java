@@ -12,8 +12,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 import java.util.function.Predicate;
@@ -28,7 +27,7 @@ public class ToolModificationEventHandler
     {
         BlockState originalState = event.getState();
 
-        if (event.getToolAction() == ToolActions.HOE_TILL && tillables.containsKey(originalState.getBlock()))
+        if (event.getItemAbility() == ItemAbilities.HOE_TILL && tillables.containsKey(originalState.getBlock()))
         {
             for (var tillable : tillables.get(originalState.getBlock()))
             {
